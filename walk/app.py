@@ -20,7 +20,7 @@ def index():
 @app.route('/fffkslasdj')
 
 #define app function
-def index2():
+def page2():
     #Set up list
     gallery = "gallery&400"
     UIC = 'UIC'
