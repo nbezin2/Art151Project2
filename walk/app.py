@@ -11,12 +11,12 @@ import re
 @app.route('/')
 
 def index():
-    if request.method == 'POST':
+    #if request.method == 'POST':
         #Redirect page
-        if request.form['button'] == 'page2':
-            return render_tempplate("page2.html")
-    elif request.method == 'GET':
-        return render_template("index.html", form = form)
+        #if request.form['button'] == 'page2':
+        #    print("something supposed to happen!")#return render_tempplate("page2.html")
+    #elif request.method == 'GET':
+    return render_template("index.html")
 
 
 
