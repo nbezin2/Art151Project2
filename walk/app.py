@@ -48,7 +48,7 @@ def page2():
     text = (soup.text)
 
     
-    return render_template("index.html", text = text)
+    return render_template("page2.html", text = text)
 
 
 
