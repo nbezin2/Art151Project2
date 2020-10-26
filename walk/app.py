@@ -11,44 +11,24 @@ import re
 @app.route('/')
 
 def index():
-    return render_template("index.html")
+    if request.method == 'POST':
+        #Redirect page
+        if request.form['button'] == 'page2':
+            return render_tempplate("page2.html")
+    elif request.method == 'GET':
+        return render_template("index.html", form = form)
 
 
 
 
 #set route for user navigation
-@app.route('/')
+@app.route('/scrape/')
 
 #define app function
-def page2():
+def scrape():
     #Set up list
-    gallery = "gallery&400"
-    UIC = 'UIC'
-    chicago = 'chicago'
-    usa = 'usa'
-
-
-    #get number
-    number = 40
-    
-    #move through list
-    search = gallery
-    article = []
-    results = 100 # valid options 10, 20, 30, 40, 50, and 100
-    page = requests.get(f"https://www.google.com/search?q={search}&num={results}")
-    soup = BeautifulSoup(page.content, "html.parser")
-    links = soup.findAll("a")
-    for link in links :
-        link_href = link.get('href')
-        if "url?q=" in link_href and not "webcache" in link_href:
-            article.append((link.get('href').split("?q=")[1].split("&sa=U")[0]))
-
-    page = requests.get(f'{article[number]}')
-    soup = BeautifulSoup(page.text, 'html.parser')
-    text = (soup.text)
-
-    
-    return render_template("page2.html")
+    print("Hello Scrape!!!")
+    #return render_template("page2.html")
 
 
 
