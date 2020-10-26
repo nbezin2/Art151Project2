@@ -8,15 +8,15 @@ import requests
 import re
 
 
-@app.route('/')
+@app.route('/', methods=["POST", "GET"])
 
 def index():
-    #if request.method == 'POST':
+    if request.method == 'POST':
         #Redirect page
-        #if request.form['button'] == 'page2':
+        return redirect(url_for("scrape"))
         #    print("something supposed to happen!")#return render_tempplate("page2.html")
-    #elif request.method == 'GET':
-    return render_template("index.html")
+    else:
+        return render_template("index.html")
 
 
 
