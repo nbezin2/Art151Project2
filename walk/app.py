@@ -17,7 +17,7 @@ def index():
 
 
 #set route for user navigation
-@app.route('/fffkslasdj')
+@app.route('/')
 
 #define app function
 def page2():
@@ -48,7 +48,7 @@ def page2():
     text = (soup.text)
 
     
-    return render_template("page2.html", text = text)
+    return render_template("page2.html")
 
 
 
