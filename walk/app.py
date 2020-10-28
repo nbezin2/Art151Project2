@@ -6,6 +6,8 @@ app = Flask(__name__)
 from bs4 import BeautifulSoup
 import requests
 import re
+from datetime import datetime
+import random
 
 # random number based on the current system clock
 random.seed(datetime.now()) 
