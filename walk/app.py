@@ -7,146 +7,75 @@ from bs4 import BeautifulSoup
 import requests
 import re
 
+# random number based on the current system clock
+random.seed(datetime.now()) 
 
-@app.route('/', methods=["POST", "GET"])
+page1 = requests.get("https://en.wikipedia.org/wiki/Portal:Video_games")
+page2 = requests.get("https://en.wikipedia.org/wiki/Portal:Film")
+page3 = requests.get("https://en.wikipedia.org/wiki/Portal:Music")
+
+def scrape(page):
+    soup = BeautifulSoup(page.content, 'html.parser')
+    
+    pageLinks = soup.find(id="bodyContent").find_all("a")
+    random.shuffle(pageLinks)
+    scrapedLink = 0
+    
+    for i in pageLinks:
+        if i['href'].find("/wiki/") != -1:
+            scrapedLink = i
+            break
+    
+    newPage = requests.get("https://en.wikipedia.org" + scrapedLink['href'])
+    scrapedSoup = BeautifulSoup(newPage.content, 'html.parser')
+    title = scrapedSoup.find(id="firstHeading")
+    paras = scrapedSoup.find(id="bodyContent").find_all("p")
+    random.shuffle(paras)
+    para = 0
+    
+    for i in paras:
+        if len(i.text) > 10:
+            para = i
+            break
+            
+    return newPage, title.text, para.text
+
+@app.route('/')
 
 def index():
-    if request.method == 'POST':
-        #Redirect page
-        return redirect(url_for("scrape"))
-        #    print("something supposed to happen!")#return render_tempplate("page2.html")
-    else:
-        return render_template("index.html")
-
-
-
-
-#set route for user navigation
-@app.route('/scrape/')
-
-#define app function
-def scrape():
-    #Set up list
-    print("Hello Scrape!!!")
-    #return render_template("page2.html")
-
-
-
-
-#set route for user navigation
-@app.route('/uic')
-
-#define app function
-def UIC():
-
-
-         #Set up list
-    gallery = "gallery&400"
-    UIC = 'UIC'
-    chicago = 'chicago'
-    usa = 'usa'
-
-
-    #get number
-    number = 40
-
-
-    #move through list
-    search = UIC
-    article = []
-    results = 100 # valid options 10, 20, 30, 40, 50, and 100
-    page = requests.get(f"https://www.google.com/search?q={search}&num={results}")
-    soup = BeautifulSoup(page.content, "html.parser")
-    links = soup.findAll("a")
-    for link in links :
-        link_href = link.get('href')
-        if "url?q=" in link_href and not "webcache" in link_href:
-            article.append((link.get('href').split("?q=")[1].split("&sa=U")[0]))
-
-    page = requests.get(f'{article[number]}')
-    soup = BeautifulSoup(page.text, 'html.parser')
-    text = (soup.text)
-
     
-    return render_template("uic.html", text = text)
-
-
-
-
-
-
-#set route for user navigation
-@app.route('/chicago')
-
-#define app function
-def chicago():
-
-         #Set up list
-    gallery = "gallery&400"
-    UIC = 'UIC'
-    chicago = 'chicago'
-    usa = 'usa'
-
-
-    #get number
-    number = 40
-
-    #move through list
-    search = chicago
-    article = []
-    results = 100 # valid options 10, 20, 30, 40, 50, and 100
-    page = requests.get(f"https://www.google.com/search?q={search}&num={results}")
-    soup = BeautifulSoup(page.content, "html.parser")
-    links = soup.findAll("a")
-    for link in links :
-        link_href = link.get('href')
-        if "url?q=" in link_href and not "webcache" in link_href:
-            article.append((link.get('href').split("?q=")[1].split("&sa=U")[0]))
-
-    page = requests.get(f'{article[number]}')
-    soup = BeautifulSoup(page.text, 'html.parser')
-    text = (soup.text)
-
-    
-    return render_template("chicago.html", text = text)
-
-
-
+    return render_template("index.html")
 
 
 
 
 #set route for user navigation
-@app.route('/usa')
+@app.route('/videogames')
 
 #define app function
-def usa():
-
-         #Set up list
-    gallery = "gallery&400"
-    UIC = 'UIC'
-    chicago = 'chicago'
-    usa = 'usa'
-
-
-    #get number
-    number = 40
-
-    #move through list
-    search = usa
-    article = []
-    results = 100 # valid options 10, 20, 30, 40, 50, and 100
-    page = requests.get(f"https://www.google.com/search?q={search}&num={results}")
-    soup = BeautifulSoup(page.content, "html.parser")
-    links = soup.findAll("a")
-    for link in links :
-        link_href = link.get('href')
-        if "url?q=" in link_href and not "webcache" in link_href:
-            article.append((link.get('href').split("?q=")[1].split("&sa=U")[0]))
-
-    page = requests.get(f'{article[number]}')
-    soup = BeautifulSoup(page.text, 'html.parser')
-    text = (soup.text)
-
+def videogames():
     
-    return render_template("usa.html", text = text)
+    nPage, title, text = scrape(page1)
+    return render_template("videogames.html", text=text, title=title)
+
+
+
+
+#set route for user navigation
+@app.route('/films')
+
+#define app function
+def films():
+
+    nPage, title, text = scrape(page2)
+    return render_template("films.html", text=text, title=title)
+
+
+#set route for user navigation
+@app.route('/music')
+
+#define app function
+def music():
+
+    nPage, title, text = scrape(page3)
+    return render_template("music.html", text=text, title=title)
