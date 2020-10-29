@@ -1,1 +1,15 @@
-#00008B
+html,body {
+    background-color: #00008B;
+  }
+
+h1{
+    color: black;
+}
+
+h2{
+    color: gray;
+}
+
+p{
+      color: white;
+}
