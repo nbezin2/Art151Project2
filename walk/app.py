@@ -36,7 +36,7 @@ def scrape(page):
     para = 0
     
     for i in paras:
-        if len(i.text) > 10:
+        if len(i.text) > 100:
             para = i
             break
             
