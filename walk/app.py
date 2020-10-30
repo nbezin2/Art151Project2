@@ -12,8 +12,8 @@ import random
 # random number based on the current system clock
 random.seed(datetime.now()) 
 
-page1 = requests.get("https://en.wikipedia.org/wiki/Portal:Video_games")
-page2 = requests.get("https://en.wikipedia.org/wiki/Portal:Film")
+page1 = requests.get("https://en.wikipedia.org/wiki/Lists_of_video_games")
+page2 = requests.get("https://en.wikipedia.org/wiki/Lists_of_films")
 page3 = requests.get("https://en.wikipedia.org/wiki/Lists_of_musicians")
 page4 = requests.get("https://en.wikipedia.org/wiki/Lists_of_books")
 page5 = requests.get("https://en.wikipedia.org/wiki/List_of_board_games")
@@ -62,6 +62,7 @@ def index():
 def videogames():
     
     nPage, title, text = scrape(page1)
+    nPage, title, text = scrape(nPage)
     return render_template("videogames.html", text=text, title=title)
 
 
@@ -74,6 +75,7 @@ def videogames():
 def films():
 
     nPage, title, text = scrape(page2)
+    nPage, title, text = scrape(nPage)
     return render_template("films.html", text=text, title=title)
 
 
