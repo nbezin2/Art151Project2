@@ -1,1 +1,15 @@
-#FF8C00
+html,body {
+    background-color: #FF8C00;
+  }
+
+h1{
+    color: #FFFF00;
+}
+
+h2{
+    color: lightgray;
+}
+
+p{
+      color: white;
+}
