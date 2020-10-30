@@ -14,7 +14,7 @@ random.seed(datetime.now())
 
 page1 = requests.get("https://en.wikipedia.org/wiki/Portal:Video_games")
 page2 = requests.get("https://en.wikipedia.org/wiki/Portal:Film")
-page3 = requests.get("https://en.wikipedia.org/wiki/Portal:Music")
+page3 = requests.get("https://en.wikipedia.org/wiki/Lists_of_musicians")
 
 def scrape(page):
     soup = BeautifulSoup(page.content, 'html.parser')
@@ -24,7 +24,7 @@ def scrape(page):
     scrapedLink = 0
     
     for i in pageLinks:
-        if i['href'].find("/wiki/") != -1 and i['href'].find("Portal:") == -1 and i['href'].find("Category:") == -1 and i['href'].find(":Wikipedia") == -1:
+        if i['href'].find("/wiki/") != -1 and i['href'].find("Portal:") == -1 and i['href'].find("Category:") == -1 and i['href'].find(":Wikipedia") == -1 and i['href'].find("Wikipedia:") == -1:
             scrapedLink = i
             break
             
@@ -82,4 +82,5 @@ def films():
 def music():
 
     nPage, title, text = scrape(page3)
+    nPage, title, text = scrape(nPage)
     return render_template("music.html", text=text, title=title)
