@@ -1,0 +1,15 @@
+html,body {
+    background-color: #800080;
+  }
+
+h1{
+    color: #FFFF00;
+}
+
+h2{
+    color: lightgray;
+}
+
+p{
+      color: white;
+}
