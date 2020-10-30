@@ -24,16 +24,18 @@ def scrape(page):
     scrapedLink = 0
     
     for i in pageLinks:
-        if i['href'].find("/wiki/") != -1:
+        if i['href'].find("/wiki/") != -1 and i['href'].find("Portal:") == -1 and i['href'].find("Category:") == -1 and i['href'].find(":Wikipedia") == -1:
             scrapedLink = i
             break
-    
+            
+   
     newPage = requests.get("https://en.wikipedia.org" + scrapedLink['href'])
     scrapedSoup = BeautifulSoup(newPage.content, 'html.parser')
     title = scrapedSoup.find(id="firstHeading")
     paras = scrapedSoup.find(id="bodyContent").find_all("p")
     random.shuffle(paras)
     para = 0
+        
     
     for i in paras:
         if len(i.text) > 100:
