@@ -15,6 +15,8 @@ random.seed(datetime.now())
 page1 = requests.get("https://en.wikipedia.org/wiki/Portal:Video_games")
 page2 = requests.get("https://en.wikipedia.org/wiki/Portal:Film")
 page3 = requests.get("https://en.wikipedia.org/wiki/Lists_of_musicians")
+page4 = requests.get("https://en.wikipedia.org/wiki/Lists_of_books")
+page5 = requests.get("https://en.wikipedia.org/wiki/List_of_board_games")
 
 def scrape(page):
     soup = BeautifulSoup(page.content, 'html.parser')
@@ -84,3 +86,22 @@ def music():
     nPage, title, text = scrape(page3)
     nPage, title, text = scrape(nPage)
     return render_template("music.html", text=text, title=title)
+
+#set route for user navigation
+@app.route('/books')
+
+#define app function
+def books():
+
+    nPage, title, text = scrape(page4)
+    nPage, title, text = scrape(nPage)
+    return render_template("books.html", text=text, title=title)
+
+#set route for user navigation
+@app.route('/boardGames')
+
+#define app function
+def boardGames():
+
+    nPage, title, text = scrape(page5)
+    return render_template("boardGames.html", text=text, title=title)
